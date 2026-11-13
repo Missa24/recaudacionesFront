@@ -499,3 +499,23 @@
     line-height: 1.5;
   }
 }
+
+/* Aviso de sesión expirada o cierre de sesión, sobre el formulario. */
+.sessionNotice {
+  margin: 0 0 18px;
+  padding: 10px 12px;
+  border: 1px solid #cfe1e9;
+  border-radius: 9px;
+  background: #eef7fa;
+  color: #164e6b;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Error general de autenticación bajo los campos. */
+.formError {
+  margin: 12px 0 0;
+  color: #b3261e;
+  font-size: 13px;
+  line-height: 1.45;
+}
