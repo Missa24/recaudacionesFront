@@ -1,6 +1,6 @@
 # Cambios mínimos en el backend (justificación)
 
-El backend se considera completo y **no se reescribe**. Estos cuatro ajustes
+El backend se considera completo y **no se reescribe**. Estos cinco ajustes
 son necesarios para que la fase 1 no simule la sesión ni el último acceso:
 
 1. `POST /sesion` usaba un UUID fijo (`8b461287-…`) en lugar del usuario del
@@ -10,6 +10,10 @@ son necesarios para que la fase 1 no simule la sesión ni el último acceso:
 3. `POST /auth/login` nunca actualizaba `usuario.ultimo_acceso`.
 4. `rol-modulo-permiso` no tenía ninguna guardia: cualquiera podía leer o
    modificar la matriz de permisos sin JWT.
+5. Los controladores de catálogos, aranceles y seguridad usan un UUID de
+   ejemplo (`8b461287-…`) para la auditoría. Ese UUID **no existe** en la base
+   y toda escritura falla por clave foránea (23503). Se resolvió con una
+   auditoría transversal por usuario real.
 
 Ningún endpoint nuevo, ninguna migración y ningún cambio de contrato para
 consumidores actuales: solo se corrige el origen del usuario y se añade `id`
@@ -275,6 +279,26 @@ Era el único controlador del módulo sin autenticación. Se añade la guardia:
 Aplicar `docs/seguridad/seed-fase1.sql` después de que exista al menos un
 usuario activo en `seguridad.usuario`. Crea módulos, permisos y los asigna al
 rol `ADMINISTRADOR` (lo crea si no existe).
+
+## 10. Auditoría por usuario real
+
+Se añadieron tres archivos y dos registros:
+
+- `src/common/auditoria/contexto-auditoria.ts`: `AsyncLocalStorage` con el UUID
+  del usuario de la petición.
+- `src/common/auditoria/auditoria.subscriber.ts`: antes de insertar o
+  actualizar, reemplaza `_user_created`, `_user_update`, `user_created` y
+  `user_update` por el UUID real, incluida la relación `usuario_creador`.
+- `src/common/auditoria/auditoria.interceptor.ts`: publica el `usuarioId` que
+  deja `JwtStrategy` en `req.user`.
+- `JwtStrategy` resuelve el UUID desde `seguridad.usuario` a partir del
+  `username` del token.
+- `AppModule` registra `subscribers: [AuditoriaSubscriber]` y el interceptor
+  global.
+
+Así los servicios existentes pueden seguir recibiendo el UUID fijo: el
+subscriber lo sobrescribe antes de persistir. La prueba directa contra la base
+confirmó que `catalogo.banco._user_created` queda con el UUID autenticado.
 
 ## Verificación
 

@@ -22,12 +22,29 @@ export const RUTAS = {
   inicio: "/",
   login: "/login",
   seguridad: "/seguridad",
-  denegado: "/seguridad/denegado",
+  denegado: "/denegado",
   usuarios: "/seguridad/usuarios",
   roles: "/seguridad/roles",
   modulos: "/seguridad/modulos",
   permisos: "/seguridad/permisos",
   sesiones: "/seguridad/sesiones",
+  catalogo: "/catalogo",
+  catalogoBancos: "/catalogo/bancos",
+  catalogoCuentas: "/catalogo/cuentas-bancarias",
+  catalogoDependencias: "/catalogo/dependencias",
+  catalogoIntereses: "/catalogo/intereses",
+  catalogoCalendario: "/catalogo/calendario",
+  catalogoPersonasNaturales: "/catalogo/personas-naturales",
+  catalogoPersonasJuridicas: "/catalogo/personas-juridicas",
+  catalogoRequisitos: "/catalogo/requisitos",
+  catalogoUfv: "/catalogo/ufv",
+  arancel: "/arancel",
+  arancelTiposTramite: "/arancel/tipos-tramite",
+  arancelGenerales: "/arancel/aranceles",
+  arancelDetalles: "/arancel/detalles",
+  arancelTarifas: "/arancel/tarifas",
+  arancelRangos: "/arancel/rangos",
+  arancelRequisitos: "/arancel/requisitos",
 } as const;
 
 /** Códigos de los módulos funcionales de la fase 1. */
@@ -37,6 +54,8 @@ export const MODULOS = {
   modulos: "MODULOS",
   permisos: "PERMISOS",
   sesiones: "SESIONES",
+  catalogos: "CATALOGOS",
+  aranceles: "ARANCELES",
 } as const;
 
 /**
@@ -66,6 +85,41 @@ export const PERMISOS = {
   permisoEstado: "PERMISO_ESTADO",
   sesionVer: "SESION_VER",
   sesionCerrar: "SESION_CERRAR",
+
+  // Catálogos maestros (fase 2). `VER` consulta; `GESTIONAR` crea, edita y
+  // cambia estado. El seed de la fase 2 registra estos códigos.
+  bancoVer: "BANCO_VER",
+  bancoGestionar: "BANCO_GESTIONAR",
+  cuentaBancariaVer: "CUENTA_BANCARIA_VER",
+  cuentaBancariaGestionar: "CUENTA_BANCARIA_GESTIONAR",
+  dependenciaVer: "DEPENDENCIA_VER",
+  dependenciaGestionar: "DEPENDENCIA_GESTIONAR",
+  interesVer: "INTERES_VER",
+  interesGestionar: "INTERES_GESTIONAR",
+  calendarioVer: "CALENDARIO_VER",
+  calendarioGestionar: "CALENDARIO_GESTIONAR",
+  personaNaturalVer: "PERSONA_NATURAL_VER",
+  personaNaturalGestionar: "PERSONA_NATURAL_GESTIONAR",
+  personaJuridicaVer: "PERSONA_JURIDICA_VER",
+  personaJuridicaGestionar: "PERSONA_JURIDICA_GESTIONAR",
+  requisitoVer: "REQUISITO_VER",
+  requisitoGestionar: "REQUISITO_GESTIONAR",
+  ufvVer: "UFV_VER",
+  ufvGestionar: "UFV_GESTIONAR",
+
+  // Aranceles (fase 2).
+  tipoTramiteVer: "TIPO_TRAMITE_VER",
+  tipoTramiteGestionar: "TIPO_TRAMITE_GESTIONAR",
+  arancelGeneralVer: "ARANCEL_GENERAL_VER",
+  arancelGeneralGestionar: "ARANCEL_GENERAL_GESTIONAR",
+  arancelDetalleVer: "ARANCEL_DETALLE_VER",
+  arancelDetalleGestionar: "ARANCEL_DETALLE_GESTIONAR",
+  tarifaVer: "TARIFA_VER",
+  tarifaGestionar: "TARIFA_GESTIONAR",
+  arancelRangoVer: "ARANCEL_RANGO_VER",
+  arancelRangoGestionar: "ARANCEL_RANGO_GESTIONAR",
+  arancelRequisitoVer: "ARANCEL_REQUISITO_VER",
+  arancelRequisitoGestionar: "ARANCEL_REQUISITO_GESTIONAR",
 } as const;
 
 /**

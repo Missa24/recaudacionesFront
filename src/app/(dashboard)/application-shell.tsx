@@ -99,6 +99,18 @@ export function ApplicationShell({
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerWidth = collapsed ? collapsedWidth : expandedWidth;
 
+  // Accesos de arranque para el superusuario mientras el catálogo de módulos
+  // todavía no tiene sembradas las áreas de catálogos y aranceles.
+  const modulosVisibles = sesion.esSuperusuario
+    ? [
+        ...modulos,
+        ...[
+          { id: "modulo-catalogos", codigo: "CATALOGOS", nombre: "Catálogos", ruta: "/catalogo", descripcion: null },
+          { id: "modulo-aranceles", codigo: "ARANCELES", nombre: "Aranceles", ruta: "/arancel", descripcion: null },
+        ].filter((fijo) => !modulos.some((modulo) => modulo.ruta === fijo.ruta)),
+      ]
+    : modulos;
+
   const navigation = (
     <Stack sx={{ height: "100%" }}>
       <Box sx={{ px: collapsed ? 1 : 2, pt: 2.5, pb: 1 }}>
@@ -150,14 +162,14 @@ export function ApplicationShell({
       <Divider sx={{ mx: 2, my: 1.5 }} />
 
       <List sx={{ px: 1.25, py: 0, flex: 1, overflowY: "auto" }}>
-        {modulos.length === 0 ? (
+        {modulosVisibles.length === 0 ? (
           !collapsed && (
             <Typography variant="caption" color="text.secondary" sx={{ px: 1.5 }}>
               Sin módulos asignados.
             </Typography>
           )
         ) : (
-          modulos.map((modulo) => (
+          modulosVisibles.map((modulo) => (
             <Tooltip
               key={modulo.id}
               title={collapsed ? modulo.nombre : ""}
